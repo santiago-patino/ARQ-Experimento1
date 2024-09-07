@@ -23,7 +23,7 @@ def recibir_mensaje_monitor(mensaje):
     responder_mensaje()
 
 def responder_mensaje():
-    print("Envio respuesta: Autenticador->Monitor")
+    print("Envio respuesta: Usuarios->Monitor")
     args = ("Usuarios",)
     responder_mensaje_monitor.apply_async(args)
 

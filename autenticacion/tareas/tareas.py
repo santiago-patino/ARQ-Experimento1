@@ -12,11 +12,11 @@ def responder_mensaje_monitor(message):
 
 @celery_app.task(name='monitor.enviar_mensaje.autenticacion')
 def recibir_mensaje_monitor(mensaje):
-    print("Mensaje de control recibido: Monitor->Autenticador")
+    print("Mensaje de control recibido: Monitor->Autenticacion")
     responder_mensaje()
 
 def responder_mensaje():
-    print("Envio respuesta: Autenticador->Monitor")
+    print("Envio respuesta: Autenticacion->Monitor")
     args = ("Autenticacion",)
     responder_mensaje_monitor.apply_async(args)
 
