@@ -65,24 +65,22 @@ def restablecer_estado():
 def enviar_mensajes():
     restablecer_estado()
     args = ("Mensaje de control",)
-    enviar_mensaje_autenticador.apply_async(args)
-    # for servicio_nombre, servicio_data in services.items():
-    #    if servicio_nombre == "Autenticacion":
-    #        enviar_mensaje_autenticador.apply_async(args)
-    #    elif servicio_nombre == "Usuarios":
-    #        print()
-    #        enviar_mensaje_usuarios.apply_async(args)
-    #    else:
-    #        return
-        
-    #    r.hset(servicio_nombre, "enviado", 1)
-    #    r.hset(servicio_nombre, "hora_enviado", datetime.now().strftime("%H:%M:%S"))
-
-    r.hset("Autenticacion", "enviado", 1)
-    r.hset("Autenticacion", "hora_enviado", datetime.now().strftime("%H:%M:%S"))
     
-    time.sleep(2)
+    for servicio_nombre, servicio_data in services.items():
+       if servicio_nombre == "Autenticacion":
+           enviar_mensaje_autenticador.apply_async(args)
+       elif servicio_nombre == "Usuarios":
+           print()
+           enviar_mensaje_usuarios.apply_async(args)
+       else:
+           return
+        
+       r.hset(servicio_nombre, "enviado", 1)
+       r.hset(servicio_nombre, "hora_enviado", datetime.now().strftime("%H:%M:%S"))
+
+    time.sleep(1)
     validar_respuesta()
+
 
 def validar_respuesta():
     imprimir_estado()
