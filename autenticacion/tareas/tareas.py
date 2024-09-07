@@ -1,6 +1,9 @@
 from celery import Celery
 from datetime import datetime
 
+import sys
+import os
+
 celery_app = Celery('task', broker='redis://localhost:6379/0')
 
 @celery_app.task(name="monitor.recibir_mensaje")
@@ -14,5 +17,9 @@ def recibir_mensaje_monitor(mensaje):
 
 def responder_mensaje():
     print("Envio respuesta: Autenticador->Monitor")
-    args = ("Autenticador",)
+    args = ("Autenticacion",)
     responder_mensaje_monitor.apply_async(args)
+
+@celery_app.task(name='monitor.enviar_mensaje.usuarios')
+def recibir_mensaje_users(mensaje):
+    print()

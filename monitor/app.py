@@ -4,7 +4,6 @@ from celery import Celery
 from .tareas.tareas import enviar_mensajes
 import threading
 import time
-from .monitoreo import imprimir_estado
 
 celery_app = Celery('task', broker='redis://localhost:6379/0')
 
@@ -19,22 +18,20 @@ def iniciar_hilo():
 
 def ejecutar_cada_5_segundos():
     contador = 0
+    #enviar_mensajes()
     while contador < 5:
-        print("Función ejecutada cada 5 segundos")
         enviar_mensajes()
-        imprimir_estado()
         time.sleep(5)
         contador += 1
-    print("La función ha terminado después de 5 ejecuciones.")
 
 class VistaEmpezarMonitoreo(Resource):
 
     def get(self):
         iniciar_hilo()
-        #enviar_mensajes()
+
+iniciar_hilo()
     
 api = Api(app)
-
 api.add_resource(VistaEmpezarMonitoreo, '/monitoreo')
 
 
