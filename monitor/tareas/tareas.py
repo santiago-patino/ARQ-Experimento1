@@ -19,7 +19,8 @@ services = {
         "enviado": 0,
         "respondido": 0,
         "hora_enviado": "",
-        "hora_recibido": ""
+        "hora_recibido": "",
+        "responde": 0
     },
     # "Usuarios": {
     #     "enviado": 0,
@@ -35,7 +36,8 @@ for service_name, service_data in services.items():
         "enviado": service_data["enviado"],
         "respondido": service_data["respondido"],
         "hora_enviado": service_data["hora_enviado"],
-        "hora_recibido": service_data["hora_recibido"]
+        "hora_recibido": service_data["hora_recibido"],
+        "responde": service_data["responde"]
     }
     r.hset(service_name, mapping=service_data_converted)
 
@@ -53,6 +55,7 @@ def enviar_mensaje_usuarios(message):
 def recibir_mensaje(service):
     print("Respuesta microservicio: " + service)
     r.hset(service, "respondido", 1)
+    r.hset(service, "responde", 1)
     r.hset(service, "hora_recibido", datetime.now().strftime("%H:%M:%S"))
 
 def restablecer_estado():
@@ -84,9 +87,6 @@ def enviar_mensajes():
 
 def validar_respuesta():
     imprimir_estado()
-    for servicio_nombre, servicio_data in services.items():
-        if r.hgetall(servicio_nombre).get("respondido") == "0":
-            mostrar_notificacion(servicio_nombre + " no responde!")
 
 def imprimir_estado():
     # Imprimir encabezado
