@@ -65,12 +65,34 @@ cd ARQ-Experimento1
     pip install -r requirements.txt
     ```
 
+### Paso 3: Ejecucion de componentes
 
-pip install celery // instalar celery
-pip install redis // instalar redis
+**Arrancar redis**: Redis debe estar funcionando, para poder ejecutar el experimento. ¡¡Recuerde estar en la raiz del proyecto!!
 
-redis-server // iniciar redis server
+```bash
+redis-server
+```
 
-celery -A tareas worker -l info // activar worker
+**Iniciar Celery Tasks Monitor**: ¡¡Recuerde estar en la raiz del proyecto!!
 
-flask run -p 5001 // Arrancar flask
+```bash
+cd monitor
+celery -A tareas worker -l info
+```
+
+**Iniciar Celery Tasks Microservicio: Autenticacion**: ¡¡Recuerde estar en la raiz del proyecto!!
+
+```bash
+cd autenticacion
+celery -A tareas worker -l info
+```
+
+**Iniciar Monitor**: Este comando empezara a ejecutar al monitor y enviara los mensajes de control. ¡¡Recuerde estar en la raiz del proyecto!!
+
+```bash
+cd monitor
+flask run -p 5000
+```
+
+**Recomendaciones:**: 
+Si tiene problemas ejecutando el experimiento consulte el siguiente video donde explica la ejecucion de los comandos y la demostracion del experimento
